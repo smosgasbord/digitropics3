@@ -1,0 +1,29 @@
+{
+  "//1": "describes your app and its dependencies",
+  "//2": "https://docs.npmjs.com/files/package.json",
+  "//3": "updating this file will download and update your packages",
+  "name": "networked-aframe-glitch",
+  "version": "0.0.1",
+  "description": "What am I about?",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "networked-aframe": "^0.7.1",
+    "socket.io": "^4.7.5"
+  },
+  "engines": {
+    "node": "8.10.0"
+  },
+  "repository": {
+    "url": "https://glitch.com/#!/project/networked-aframe"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch",
+    "express"
+  ]
+}

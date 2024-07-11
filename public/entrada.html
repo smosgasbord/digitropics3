@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>DIGITROPICS3</title>
+    <meta name="description" content="DIGITROPICS 3" />
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+     <script src="https://unpkg.com/aframe-extras@3.3.0/dist/aframe-extras.min.js"></script>
+    <script src="https://unpkg.com/aframe-html-shader@0.2.0/dist/aframe-html-shader.js"></script>
+     <script src="https://supereggbert.github.io/aframe-htmlembed-component/dist/build.js"></script>
+    <style>
+      .video-holder {
+  position: absolute;
+  width: 100%;
+
+  bottom: 0px;
+  left: 0px;
+  padding: 0.5em;
+        z-index: -1;
+  
+}
+    </style>
+  </head>
+  <body>
+
+     <div id="myEmbeddedScene">
+      <a-scene
+        loading-screen="dotsColor: red; backgroundColor: black"
+        cursor="rayOrigin: mouse"
+               device-orientation-permission-ui="enabled: false"
+                renderer="precision:medium;"
+                vr-mode-ui="enabled: false"
+               
+      >
+        <a-camera wasd-controls="acceleration:150;fly:false;"
+          look-controls   ></a-camera>
+        <a-assets>
+          
+          <a-asset-item
+            id="barmney-glb"
+            src="https://cdn.glitch.com/6a86801a-bae0-4500-998f-740155884ee9%2Frumba.glb?v=1617160435579"
+          ></a-asset-item>
+          
+           <a-asset-item
+          id="entrar-obj"
+          src="https://cdn.glitch.com/6a86801a-bae0-4500-998f-740155884ee9%2FLetras%20entrada.obj?v=1618375536187"
+        >
+        </a-asset-item>
+        </a-assets>
+
+        <a-sky material="shader: flat;" rotation="0 45 0"></a-sky>
+ <a-entity position="0 1.6 -1" htmlembed>
+		
+	</a-entity>
+        <a-obj-model
+        link="href:casa.html"
+        src="#entrar-obj"
+        position="0.4 0.1 -9"
+                      scale="0.5 0.5 0.3"
+                      rotation=" 0 90 0"
+        material="src:url(https://cdn.glitch.com/52208bc0-fe0e-42c6-b591-8a63a87052ec%2Fvolver.png?v=1604375271051)"
+      ></a-obj-model>
+        <a-plane link="href:casa.html" color="#149bf8" scale="1.5 0.7 0.5"  position="0.3 0.3 -9.2"></a-plane>
+         <a-gltf-model link="href:casa.html" src="#barmney-glb" position="0 -2.53 -11" rotation="0 0 0" scale="1.5 1.5 1.5" animation-mixer></a-gltf-model>
+
+        <a-entity
+          light="color: #fff; intensity: 1; type:hemisphere;angle:60"
+          position="5 -0.85 1"
+          scale="3 3 3"
+        ></a-entity>
+     
+        <a-sky
+          material="color:black"
+          scale="1 1 1"
+        ></a-sky>
+        <a-light type="directional"
+                
+               light="castShadow: true;
+                      shadowMapHeight: 1024;
+                      shadowMapWidth: 1024;
+                      shadowCameraLeft: -7;
+                      shadowCameraRight: 5;
+                      shadowCameraBottom: -5;
+                      shadowCameraTop: 5;"
+               id="light"
+               position="-5 3 1.5"></a-light>
+        
+      </a-scene>
+    </div>
+
+    <script>
+      
+    </script>
+  </body>
+</html>

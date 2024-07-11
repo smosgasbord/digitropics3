@@ -1,0 +1,746 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>DIGITROPICS Vol 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Digitropics Vol3" />
+    <meta
+      property="og:image"
+      content="https://cdn.glitch.com/2edc64ac-9f36-4ad4-8b5a-56e994885e0e%2Fdigi.jpg?v=1597564009369"
+    />
+    <link rel="stylesheet" href="/css/modalbox.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.5.0/socket.io.slim.js"></script>
+    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+
+    <!--<script src="https://unpkg.com/networked-aframe/dist/networked-aframe.min.js"></script>-->
+    <!--<script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>-->
+    <!--script src="js/aframe-text-geometry-component.min.js"></script-->
+    <script src="js/joy.js"></script>
+    <!--<script src="//unpkg.com/aframe-physics-system@3.1.2/dist/aframe-physics-system.min.js"></script>-->
+    <script>
+      window.NAF ||
+        document.write(
+          '<script src="https://unpkg.com/networked-aframe/dist/networked-aframe.min.js">\x3C/script>'
+        );
+    </script>
+
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <script src="https://unpkg.com/aframe-entity-generator-component@3.0.1/dist/aframe-entity-generator-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-simple-shooter@1.0.1/dist/aframe-simple-shooter.min.js"></script>
+    <!--<script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>-->
+    <!--script src="/js/spawn-in-circle.component.js"></script-->
+    <!--<script src="https://rawgit.com/andreasplesch/aframe-faceset-component/master/dist/aframe-faceset-component.min.js"></script>
+    <script src="https://unpkg.com/hydra-synth"></script>-->
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/flv.js@1.6.2/dist/flv.js"></script>
+
+    <style>
+
+
+       .black-text {
+         color: black;
+       }
+       .foo {
+         left: 20px;
+       }
+
+       .bar {
+         left: 56px;
+       }
+
+       a-scene {
+         height: 100%;
+         width: 100%;
+       }
+
+       /*body {
+         margin: 0;
+         padding: 0;
+         font-family: "Recursive";
+         background-color: black;
+         color: white;
+       }*/
+
+       #navbar {
+         width: 100%;
+         background-color: color;
+         z-index: 1;
+         /*box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.9);*/
+       }
+
+       ul {
+         width: 80%;
+         margin: 0 auto;
+         padding: 0;
+         z-index: 1;
+       }
+
+      /* ul li {
+         list-style-type: none;
+         display: inline-block;
+
+         transition: 0.5s;
+         /*background-color: black;*/
+       }*/
+       .pad {
+         padding: 10px;
+       }
+
+      /* ul li:hover {
+         background-color: red;
+         color: white;
+       }*/
+
+
+
+       /*.toggle {
+         background-color: black;
+         width: 100%;
+         padding: 10px 20px;
+         text-align: right;
+         box-sizing: border-box;
+         color: white;
+         font-size: 30px;
+         display: none;
+       }*/
+
+       /*@media (max-width: 768px) {
+         .toggle {
+           display: block;
+         }
+
+         ul {
+           width: 100%;
+           display: none;
+           height: 50px;
+         }
+         ul li {
+           display: block;
+           text-align: center;
+         }
+         .active {
+           display: block;
+           z-index: 1;
+         }
+       }*/
+       .center {
+         text-align: center;
+       }
+       .icon-size {
+         font-size: 30;
+       }
+
+       .digi-ayuda {
+         background: #f7c2d6;
+       }
+
+       .chat {
+         background: #FDFFB4;
+       }
+    </style>
+  </head>
+  <script>
+    AFRAME.registerComponent('random-material', {
+      init: function () {
+        this.el.setAttribute('material', {
+          color: this.getRandomColor(),
+          metalness: Math.random(),
+          roughness: Math.random(),
+        });
+      },
+
+      getRandomColor: function () {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      },
+    });
+
+    AFRAME.registerComponent('random-torus-knot', {
+      init: function () {
+        this.el.setAttribute('geometry', {
+          primitive: 'sphere',
+          radius: Math.random() * 10,
+          /*radiusTubular: Math.random() * .75,
+            p: Math.round(Math.random() * 10),
+            q: Math.round(Math.random() * 10)*/
+        });
+      },
+    });
+
+    AFRAME.registerComponent('sonido', {
+      init: function () {
+        this.el.addEventListener('click', (e) => {
+          console.log('HELLO');
+        });
+      },
+    });
+  </script>
+
+  <body>
+    <div class="mainUI" id="uiDiv" oncontextmenu="return false;">
+      <!-- centered -->
+      <div class="regionUI">
+        <div class="buttonUI">
+          <div class="center">
+            <img
+              src="https://cdn.glitch.com/6a86801a-bae0-4500-998f-740155884ee9%2FMonopat%C3%ADn.png?v=1619676523658"
+              id="buttonEnter"
+              style="
+                width: 226;
+                height: 234;
+                float: center;
+                align-items: center;
+              "
+            />
+
+            <div class="verde center textoInicio">
+              <p class="naranja">«Click a la imagen para entrar»</p>
+              <br />
+              <div>
+                <div class="naranja">
+                  ADVERTENCIA: Imágenes y colores intermitentes
+                </div>
+                <div>Teclas direccionales para moverte por el espacio</div>
+                <div>
+                  <span class="rosado">
+                    El video puede durar unos segundos cargando dependiendo de
+                    la conexión</span
+                  >
+                </div>
+                <div>
+                  <span class="naranja">
+                    Si tienes algún problema: RECARGA LA PÁGINA</span
+                  >
+                </div>
+                <div>
+                  Nos pueden etiquetar en sus historias como @si.nestes.ia
+                </div>
+              </div>
+              <!--<div>WASD para moverte por el espacio</div>
+              <div>
+                <span class="naranja">
+                  Con ESC se recupera el control del mouse</span
+                >
+              </div>
+              <div>
+                Con el MOUSE se mueve la CÁMARA hacia arriba o abajo y los lados
+              </div>
+              <div>
+                <span class="naranja">
+                  Hay varios objetos que te llevan a páginas externas, búscalos</span
+                >
+              </div>
+              
+              <div>
+                <span class="naranja">
+                  Si tienes algún problema: RECARGA LA PÁGINA</span
+                >
+              </div>
+              <div>
+                Presiona el icono de VR para PANTALLA COMPLETA
+              </div>
+              <div class="naranja">
+                ADVERTENCIA: Imágenes y colores intermitentes
+              </div>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="chat">
+      <div class="black-text center">
+        <small>Muéveme (uwu)</small>
+      </div>
+      <div
+        id="tlkio"
+        class="dope"
+        data-channel="digitropics"
+        data-theme="theme--pop"
+        style="width: 100%; height: 100%"
+      ></div>
+      <script
+        async
+        src="https://tlk.io/embed.js"
+        type="text/javascript"
+      ></script>
+    </div>
+
+    <div id="digi-ayuda">
+      <div class="black-text chat center">Problemas??</div>
+      <div class="black-text chat">Recarga la página o cambia de navegador</div>
+      <br />
+      <div class="black-text chat">
+        Si no te carga bien el video: usa la sala de escucha
+        <br />
+        <div>
+          <span class="naranja">
+            Hay varios objetos que te llevan a páginas externas, búscalos</span
+          >
+        </div>
+        <br />
+        <div>Si te sucede otra cosa: Pregunta en el chat</div>
+        <br />
+        <div></div>
+      </div>
+
+      <br />
+
+      <div></div>
+    </div>
+    <div id="navbar">
+      <!--<div class="toggle">
+        <i class="fa fa-bars menu" aria-hidden="true"></i>
+      </div>-->
+
+      <div id="menu">
+        <ul>
+          <li class="pad title">
+            <a href="https://digitropics3.glitch.me"
+              ><!--<i class="fa fa-home icon-size"></i
+            >-->
+              DIGITROPICS3
+            </a>
+          </li>
+          <li class="pad">
+            <a id="chat-taca"
+              ><!--<i class="fa fa-comments icon-size"></i>-->Chat</a
+            >
+          </li>
+
+          <!-- <li class="pad" id="ayuda">
+            <i class="fa fa-question-circle icon-size">Aiura</i>
+          </li>-->
+          <li class="pad">
+            <a
+              href="https://digitropics3.glitch.me/digi_radio.html"
+              target="_blank"
+              ><!--<i class="fa fa-podcast icon-size"></i>-->Sala de Escucha</a
+            >
+          </li>
+          <li class="pad">
+            <a href="https://instagram.com/si.nestes.ia" target="_blank"
+              >SINESTESIA</a
+            >
+          </li>
+          <li class="pad">
+            <a id="ayuda">Aiuda <i class="fa fa-question-circle"></i></a>
+          </li>
+          <!--<li class="pad">
+            <a id="rifa">Rifa</a>
+          </li>-->
+          <li class="pad">
+            <a href="https://paypal.me/smsgsbrd" target="_blank">Donar</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="myEmbeddedScene">
+      <a-scene
+        cursor="rayOrigin: mouse"
+        embedded
+        joystick
+        renderer="colorManagement: true"
+        device-orientation-permission-ui="enabled: true"
+        vr-mode-ui="enabled: false"
+        loading-screen="dotsColor: red; backgroundColor: black"
+        networked-scene="
+      room: digitropics;
+      debug: true;
+      connectOnLoad: false;
+      adapter: webrtc;"
+        start
+      >
+        <!--audio: false;->
+        <!--<a-entity cursor position="0 0 -5"></a-entity>-->
+        <a-assets>
+          <!--<img
+            id="bubble"
+            src="https://cdn.glitch.com/6a86801a-bae0-4500-998f-740155884ee9%2Fburbuja%20centro%20blanco.png?v=1616997546357"
+            crossorigin="anonymous"
+               scale="0.5 0.5 0.5"
+          />
+          <img
+            id="bubble"
+            src="https://cdn.glitch.com/6a86801a-bae0-4500-998f-740155884ee9%2Fmedusa.png?v=1619672191028"
+            crossorigin="anonymous"
+               scale="0.5 0.5 0.5"
+          />-->
+          <img
+            id="bubble"
+            src="https://cdn.glitch.com/6a86801a-bae0-4500-998f-740155884ee9%2FTostadita%20bicolor.png?v=1619673647613"
+            crossorigin="anonymous"
+            scale="0.5 0.5 0.5"
+          />
+
+          <video
+            id="vid1"
+            src="https://cdn.glitch.me/6a86801a-bae0-4500-998f-740155884ee9/fp21-b3.mp4?v=1639605125456"
+            autoplay
+            loop="true"
+            crossorigin="anonymous"
+          ></video>
+          <video
+            id="vid2"
+            src="https://cdn.glitch.me/6a86801a-bae0-4500-998f-740155884ee9/fp21-d3.mp4?v=1639605106529"
+            autoplay
+            loop="true"
+            crossorigin="anonymous"
+            muted
+          ></video>
+          <video
+            id="vid3"
+            src="https://cdn.glitch.me/6a86801a-bae0-4500-998f-740155884ee9/fp21-c3.mp4?v=1639605009842"
+            autoplay
+            loop="true"
+            crossorigin="anonymous"
+            muted
+          ></video>
+
+          <video id="streaming" autoplay crossorigin="anonymous"></video>
+          <a-asset-item
+            id="entrar-obj"
+            src="https://cdn.glitch.com/6a86801a-bae0-4500-998f-740155884ee9%2FLetras%20entrada.obj?v=1618375536187"
+          >
+          </a-asset-item>
+
+          <!-- Avatar -->
+          <template id="avatar-template">
+            <a-entity>
+              <a-entity
+                class="nametag"
+                text="value: Hello World; align:center;"
+                position="0 0.7 0"
+                rotation="0 180 0"
+                scale="8 8 8"
+              ></a-entity>
+
+              <!--networked-audio-source-->
+              <a-entity></a-entity>
+              <a-image class="avatar" src="#bubble"></a-image>
+            </a-entity>
+          </template>
+
+          <!-- /Templates -->
+        </a-assets>
+        <!--<a-entity id="rig" movement-controls kinematic-body jump-ability>-->
+
+        <!--<a-image
+          look-at="#player"
+          src="#curseao-minion"
+          postion="32 1 -16"
+          rotation="0 0 0"
+        ></a-image>-->
+        <a-entity
+          id="player"
+          shooter
+          networked="template:#avatar-template;attachTemplateToLocal:true;"
+          camera
+          position="0 0.6 0"
+          spawn-in-circle="radius:3"
+          wasd-controls="acceleration:170;fly:true;"
+          look-controls="pointerLockEnabled: true;"
+          movement-controls
+        >
+        </a-entity>
+
+        <a-entity
+          light="color: #fff; intensity: 0.9; type:hemisphere;angle:60"
+          position="5 -0.85 1"
+          scale="3 3 3"
+        ></a-entity>
+
+        <a-entity
+          id="visuales"
+          geometry="primitive: box; "
+          material="src:#vid1;side:back;height:800;width:1280"
+          position="0 0 0"
+          scale="30 20 30"
+          play
+        >
+        </a-entity>
+
+        <a-entity
+          geometry="primitive: box; "
+          material="src:#vid1;side:double;height:800;width:1280"
+          position="11 6 -5"
+          scale="5 5 5"
+          play
+        >
+        </a-entity>
+
+        <a-entity
+          geometry="primitive: box; "
+          material="src:#vid1;side:double;height:800;width:1280"
+          position="7 -6 0"
+          scale="5 5 5"
+          play
+        >
+        </a-entity>
+        <a-entity
+          geometry="primitive: box; "
+          material="src:#vid1;side:double;height:800;width:1280"
+          position="-8 0 0"
+          scale="5 5 5"
+          play
+        >
+        </a-entity>
+
+        <!--<a-entity
+        geometry="primitive: box"
+        material="src:#vid;side: double"
+        position="0 0 0"
+        scale="40 40 40"
+      ></a-entity>-->
+        <!-- <a-video
+          material="src:#streaming;side:double;"
+          position="0 0 -15"
+          scale="30 20 30"
+        ></a-video>
+        <a-video
+          material="src:#streaming;side:double;"
+          position="0 0 15"
+          scale="30 20 30"
+          rotation="0 180 0"
+        ></a-video>
+        <a-video
+          material="src:#streaming;side:double;"
+          position="-15 0 0 "
+          scale="30 20 30"
+          rotation="0 90 0"
+        ></a-video>
+        <a-video
+          material="src:#streaming;side:double;"
+          position="15 0 0 "
+          scale="30 20 30"
+          rotation="0 270 0"
+        ></a-video>
+        <a-video
+          material="src:#streaming;side:double;"
+          position="-0.061 9.7 0.0456 "
+          scale="30 30 30"
+          rotation="90 0 0"
+        ></a-video>
+        <a-video
+          material="src:#streaming;side:double;"
+          position="-0.061 -9.87 0.0456 "
+          scale="30 30 30"
+          rotation="90 0 0"
+        ></a-video>-->
+
+        <a-sky color="black"></a-sky>
+      </a-scene>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.min.js"
+      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+      crossorigin="anonymous"
+    ></script>
+    <script src="/js/modalbox.js"></script>
+    <script>
+      // Define custom schema for syncing avatar color, set by random-color
+      NAF.schemas.add({
+        template: '#avatar-template',
+        components: [
+          'position',
+          'rotation',
+          {
+            selector: '.head',
+            component: 'material',
+            property: 'color',
+          },
+          {
+            selector: '.nametag',
+            component: 'text',
+            property: 'value',
+          },
+        ],
+      });
+
+      var scene = document.querySelector('a-scene');
+
+      if (scene.hasLoaded) {
+        onSceneLoad();
+      } else {
+        scene.addEventListener('loaded', onSceneLoad);
+      }
+
+      function onSceneLoad() {
+        var username = 'burbujitx-' + makeId(5).toLowerCase();
+        username = prompt(
+          'Le damos la bienvenida a DIGITROPICS Vol 3\n\n\nDigite su nombre',
+          username
+        );
+
+        //Bloquee los permisos el micrófono cuando ingrese al espacio
+
+        var player = document.getElementById('player');
+        var myNametag = player.querySelector('.nametag');
+        myNametag.setAttribute('text', 'value', username);
+
+        document
+          .querySelector('a-scene')
+          .components['networked-scene'].connect();
+      }
+
+      function makeId(length) {
+        var text = '';
+        var possible =
+          'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+        for (var i = 0; i < length; i++)
+          text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
+      }
+
+      //$("#chat").myOwnDialog("open");
+      $('#chat-taca').click(function () {
+        $('#chat').myOwnDialog('open');
+      });
+
+      $('#chat').myOwnDialog({
+        movable: true,
+        resizable: true,
+        touchOutsideForClose: false,
+        width: '300',
+        height: '300',
+        pos_x: '50',
+        pos_y: '50',
+      });
+
+      $('#ayuda').click(function () {
+        $('#digi-ayuda').myOwnDialog('open');
+      });
+
+      $('#digi-ayuda').myOwnDialog({
+        //resizable: true,
+        touchOutsideForClose: true,
+        width: '400',
+        height: '400',
+      });
+
+      var newwindow;
+      function poptastic(url) {
+        newwindow = window.open(url, 'name', 'height=500,width=300');
+        if (window.focus) {
+          newwindow.focus();
+        }
+      }
+
+      $(document).ready(function () {
+        $('.menu').click(function () {
+          $('ul').toggleClass('active');
+        });
+      });
+
+      document.body.addEventListener('mousedown', function () {
+        document.getElementById('player').emit('shoot');
+      });
+
+      AFRAME.registerComponent('start', {
+        init: function () {
+          // block pointer events until buttonEnter is clicked
+          let uiDiv = document.getElementById('uiDiv');
+          uiDiv.style['pointer-events'] = 'auto';
+
+          // set up background blocker
+          uiDiv.style['background-color'] = 'rgba(0, 0, 0, 0.75)';
+
+          // indicate clickable with hand cursor (desktop)
+          let buttonEnter = document.getElementById('buttonEnter');
+          buttonEnter.style.cursor = 'pointer';
+
+          // fade-in functionality
+          let fadeIn = function () {
+            // allow point events again
+            uiDiv.style['pointer-events'] = 'none';
+
+            // sounds can only be triggered after a mouse interaction
+            /*let soundPlayer = document.querySelector("#ambientSound");
+            soundPlayer.components.sound.playSound();*/
+
+            // remove startButton
+            buttonEnter.parentNode.remove(buttonEnter);
+
+            // fade out uiDiv background
+            uiDiv.style['background-color'] = 'rgba(0, 0, 0, 0.0)';
+            uiDiv.style['transition'] = 'background-color 1000ms linear';
+          };
+
+          // activate for desktop/touchscreen
+          buttonEnter.addEventListener('touchstart', fadeIn);
+          buttonEnter.addEventListener('mousedown', fadeIn);
+
+          /*onload*/
+          onLoad();
+
+          /// ACTIVARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+          //$("#chat").myOwnDialog("open");
+        },
+      });
+
+      AFRAME.registerComponent('play', {
+        init: function () {
+          this.onClick = this.onClick.bind(this);
+        },
+        play: function () {
+          window.addEventListener('click', this.onClick);
+        },
+        pause: function () {
+          window.removeEventListener('click', this.onClick);
+        },
+        onClick: function (evt) {
+          var video = document.getElementById('vid1');
+
+          if (!video) {
+            return;
+          }
+          video.play();
+        },
+      });
+
+      //onLoad()
+      function onLoad() {
+        if (flvjs.isSupported()) {
+          var videoElement = document.getElementById('streaming');
+          var flvPlayer = flvjs.createPlayer({
+            type: 'flv',
+            url: 'https://piranhalab.cc/live/digitropics_trans/holis?pwd=digSINES_14',
+          });
+          flvPlayer.attachMediaElement(videoElement);
+          flvPlayer.load();
+          flvPlayer.play();
+          flvPlayer.on('error', function (err) {
+            if (err === 'NetworkError') {
+              flvPlayer.unload();
+              flvPlayer.load();
+              flvPlayer.play();
+            }
+          });
+        }
+      }
+
+      if (AFRAME.utils.device.isMobile()) {
+        document
+          .getElementById('visuales')
+          .setAttribute('material', { src: '#vid' });
+      } else {
+      }
+    </script>
+    <!--<script src="/js/hydra.js"></script>-->
+  </body>
+</html>

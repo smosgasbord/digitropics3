@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Alata&display=swap');
+
+
+.rosado {
+  color: #FF33FF;
+}
+
+.naranja {
+  color: #FE8D01;
+}
+
+.verde {
+  color: #5cff00;
+}
+.black-text {
+  color: black;
+}
+.foo {
+  left: 20px;
+}
+
+.bar {
+  left: 56px;
+}
+
+
+.textoInicio{
+font-size:1.6em;  
+}
+
+a-scene {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Alata";
+  background-color: #000;
+  /*color: white;*/
+  font-size:1.3em;
+}
+
+#navbar {
+  width: 100%;
+  background-color: transparent;
+  z-index: 1;
+  position: absolute;
+  /*box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.9);*/
+}
+
+ul {
+  width: 80%;
+  margin: 0 auto;
+  padding: 0;
+  z-index: 1;
+}
+
+ul li {
+  list-style-type: none;
+  display: inline-block;
+
+  transition: 0.5s;
+  background-color: rgba(255,255,255,0);
+  font-size:1.5em;
+}
+
+.pad {
+  padding: 10px;
+}
+
+ul li:hover {
+  color: #FF33FF;
+   background-color: rgba(255,255,255,0);
+  /*background-color: ;*/
+}
+
+a {
+  position: relative;
+  text-decoration: none;
+  color: #FE8D01;
+}
+
+a:hover {
+  color: #FF33FF;
+}
+.item-center {
+  align-items: center;
+}
+.center {
+  text-align: center;
+}
+
+
+.digi-ayuda {
+  background: #f7c2d6;
+}
+
+.chat {
+  background: #FDFFB4;
+}
+
+#menu{
+  font-size:0.5em;
+}
+
+.mainUI {
+  border: 0px solid pink;
+  position: fixed;
+  /*top: 0px;*/
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none; /* allow click-through in transparent areas */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size:0.7em;
+}
+
+.regionUI {
+  border: 0px solid yellow;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  pointer-events: none;
+}
+
+.buttonUI {
+  border: 0px solid lime;
+  display: flex;
+  flex-direction: column;
+  /*justify-content: center;*/
+  pointer-events: auto;
+  filter: drop-shadow(0px 0px 20px white);
+}
+
+@media only screen and (max-width: 600px) {
+  .mainUI {
+    font-size:0.3em;
+  }
+  
+  .afiche{
+    width:200px;
+    height: 200px;
+  }
+  
+}
